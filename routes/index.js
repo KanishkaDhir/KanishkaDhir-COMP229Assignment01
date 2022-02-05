@@ -6,7 +6,7 @@ var express = require('express');
 var router = express.Router();
 let indexController = require('../controllers/index')
 
-/* GET home page. */
+/* GET Home page. */
 router.get('/',indexController.home );
 
 
@@ -14,8 +14,15 @@ router.get('/',indexController.home );
 router.get('/projects', indexController.projects);
 
 /* GET About page. */
-router.get('/about', function(req, res, next) {
-  res.render('index', { title: 'About' });
-});
+router.get('/about', indexController.about);
+
+/* GET Services page. */
+router.get('/services', indexController.services);
+
+/* GET Contact page. */
+router.get('/contact', indexController.contact);
+
+
+
 
 module.exports = router;
