@@ -19,4 +19,5 @@ let inventoryModel=mongoose.Schema(
     
     );
 
-module.exports=mongoose.model("inventory",inventoryModel); //exports inventory collection as inventoryModel
+//exports inventory collection as inventoryModel. this model func comes with create,upadte,search methods for mongodb, to manipulate data    
+module.exports=mongoose.model("inventory",inventoryModel); 
