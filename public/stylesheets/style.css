@@ -1,6 +1,4 @@
-/*Author: Kanishka Dhir
-//Student ID:301220757
-//Date:01-02-2022 */
+
 
 body {
   padding: 50px;
@@ -9,4 +7,8 @@ body {
 
 a {
   color: #00B7FF;
+}
+
+.flash{
+  color:red;
 }

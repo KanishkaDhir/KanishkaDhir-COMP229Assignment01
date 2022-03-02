@@ -7,7 +7,9 @@
 //Author: Kanishka Dhir
 //Student ID:301220757
 //Date:01-02-2022
-var app = require('./config/app');
+var dbConfig = require('./config/db');
+var appConfig = require('./config/app');
+var passportConfig=require('./config/passport');
 var debug = require('debug')('kanishkadhir-comp229assignment1:server');
 var http = require('http');
 
@@ -15,25 +17,27 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
+let db=dbConfig(); //calling the function db
 var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+appConfig.set('port', port);
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+var server = http.createServer(appConfig);  //will create a server using our app
 
 /**
  * Listen on provided port, on all network interfaces.
+ * //same approach as for db, creating two event listeners , one for error, second for open
  */
-
-server.listen(port);
+let passport=passportConfig();
+server.listen(port);  
 server.on('error', onError);
 server.on('listening', onListening);
 
 /**
- * Normalize a port into a number, string, or false.
+ * Normalize a port into a number, string, or false. to normalize the error
  */
 
 function normalizePort(val) {

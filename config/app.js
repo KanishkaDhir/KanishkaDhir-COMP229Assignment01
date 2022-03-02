@@ -7,25 +7,22 @@ let express = require('express');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
-
-//Database setup
-let mongoose=require('mongoose');
-let dbURI= require('../config/db');
-
-//Connect to DB
-mongoose.connect(dbURI.DB_CONNECTION);
-
-let mongoDB=mongoose.connection;
-mongoDB.on('error',console.error.bind(console,"Connection Error: "));
-mongoDB.once('open', ()=>{
-  console.log("Connected to MongoDB...");
-})
+let session = require('express-session');
+let flash= require('connect-flash');
+let passport=require('passport');
 
 //Get the routes modules
 let indexRouter = require('../routes/index');
+let userRouter=require('../routes/users');
 let inventoryRouter=require('../routes/inventory');
 
 let app = express();
+
+app.use(session({
+  saveUninitialized:true,
+  resave:true,
+  secret:"sessionSecret"
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, '../views'));
@@ -38,13 +35,17 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.static(path.join(__dirname, '../node_modules')));
 
+//after we setup the ejs above we use the routers
+app.use(flash());
 app.use('/', indexRouter);
 app.use('/inventory', inventoryRouter);
+app.use('/users',userRouter);
 
 
+//after we setup routers , we configure two event listeners to catch errors
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+app.use(function(req, res, next) {  //this just gives us the statuscodes.
+  next(createError(404));  //404 error is not from express point of view so it is configured separately.
 });
 
 // error handler
